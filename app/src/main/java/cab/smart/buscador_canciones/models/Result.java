@@ -1,6 +1,8 @@
 
 package cab.smart.buscador_canciones.models;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,51 +50,16 @@ public class Result {
 
     /**
      * No args constructor for use in serialization
-     * 
+     *
+     * @param res
      */
-    public Result() {
+    public Result(JSONObject res) {
     }
 
     /**
-     * 
-     * @param artworkUrl100
-     * @param trackTimeMillis
-     * @param longDescription
-     * @param country
-     * @param previewUrl
-     * @param collectionHdPrice
-     * @param artistId
-     * @param trackName
-     * @param collectionName
-     * @param artistViewUrl
-     * @param discNumber
-     * @param trackCount
-     * @param artworkUrl30
-     * @param wrapperType
-     * @param currency
-     * @param collectionId
-     * @param isStreamable
-     * @param trackExplicitness
-     * @param collectionViewUrl
-     * @param trackHdPrice
-     * @param contentAdvisoryRating
-     * @param trackNumber
-     * @param releaseDate
-     * @param kind
-     * @param trackId
-     * @param collectionPrice
-     * @param shortDescription
-     * @param discCount
-     * @param primaryGenreName
-     * @param trackPrice
-     * @param collectionExplicitness
-     * @param trackViewUrl
-     * @param artworkUrl60
-     * @param trackCensoredName
-     * @param artistName
-     * @param collectionCensoredName
+     *
      */
-    public Result(String wrapperType, String kind, Integer artistId, Integer collectionId, Integer trackId, String artistName, String collectionName, String trackName, String collectionCensoredName, String trackCensoredName, String artistViewUrl, String collectionViewUrl, String trackViewUrl, String previewUrl, String artworkUrl30, String artworkUrl60, String artworkUrl100, Double collectionPrice, Double trackPrice, Double collectionHdPrice, Double trackHdPrice, String releaseDate, String collectionExplicitness, String trackExplicitness, Integer discCount, Integer discNumber, Integer trackCount, Integer trackNumber, Integer trackTimeMillis, String country, String currency, String primaryGenreName, String contentAdvisoryRating, String shortDescription, String longDescription, Boolean isStreamable) {
+    public Result() {
         super();
         this.wrapperType = wrapperType;
         this.kind = kind;

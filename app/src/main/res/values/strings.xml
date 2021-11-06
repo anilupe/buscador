@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">buscador_canciones</string>
+    <string name="list_no_items">No existen items</string>
 </resources>

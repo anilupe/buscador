@@ -11,8 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import cab.smart.buscador_canciones.R;
 import cab.smart.buscador_canciones.models.Result;
 
@@ -21,12 +25,15 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private LayoutInflater inflater;
     private AdapterView.OnItemClickListener mListener;
     List<Result> data = Collections.emptyList();
+    ArrayList<Result> listaOriginal;
 
 
     public SongsListAdapter(Context context, List<Result> data) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.data = data;
+        listaOriginal=new ArrayList<>();
+        listaOriginal.addAll(data);
     }
     @NonNull
     @Override
@@ -45,6 +52,31 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         myHolder.trackName.setText(current.getTrackName());
         myHolder.collectionName.setText(current.getCollectionName());
 
+    }
+
+    public void filtrado(String txtBuscar){
+        int longitud = txtBuscar.length();
+        if(longitud==0){
+            data.clear();
+            data.addAll(listaOriginal);
+        }else {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                List<Result>collection=data.stream()
+                        .filter(i -> i.getTrackName().toLowerCase().contains(txtBuscar.toLowerCase()))
+                        .collect(Collectors.toList());
+
+                data.clear();
+                data.addAll(collection);
+            }
+            else {
+                for (Result c:listaOriginal){
+                    if (c.getTrackName().toLowerCase().contains(txtBuscar.toLowerCase())){
+                        data.add(c);
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override

@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         listViewcanciones = (RecyclerView) findViewById(R.id.list_songs);
         svSearch=(SearchView)findViewById(R.id.svSearch);
+//        getSongs("camila");
         svSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void getSongs(String term){
 
 
-        Call<SongsModel> call = restApi.getSongs(term,commons.mediaType ,commons.limit,commons.offset );
+        Call<SongsModel> call = restApi.getSongs(term,"music" ,20,1 );
         call.enqueue(new Callback<SongsModel>() {
             @Override
             public void onResponse(Call<SongsModel> call, Response<SongsModel> response) {

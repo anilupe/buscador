@@ -50,23 +50,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         listViewcanciones = (RecyclerView) findViewById(R.id.list_songs);
         svSearch=(SearchView)findViewById(R.id.svSearch);
-        svSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                System.out.println(query);
-                String term=query.replaceAll(" ", "+");
-                //
-                getSongs(term);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-
+        svSearch.setOnQueryTextListener(this);
     }
 
     @Override
@@ -76,13 +60,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        getSongs(newText);
         return false;
     }
 
 
     public void getSongs(String term){
-
-
         Call<SongsModel> call = restApi.getSongs(term,commons.mediaType ,commons.limit,commons.offset );
         call.enqueue(new Callback<SongsModel>() {
             @Override

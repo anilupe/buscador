@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private RecyclerView listViewcanciones;
     private SongsListAdapter mAdapter;
     private SearchView svSearch;
+    private Button btn_next;
+    private Button btn_back;
 
 
     Retrofit.Builder builder = new Retrofit.Builder()
@@ -51,6 +55,36 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         listViewcanciones = (RecyclerView) findViewById(R.id.list_songs);
         svSearch=(SearchView)findViewById(R.id.svSearch);
         svSearch.setOnQueryTextListener(this);
+        btn_next=(Button) findViewById(R.id.btn_next);
+        btn_back=(Button) findViewById(R.id.btn_back);
+
+        if(commons.offset<1){
+            btn_back.setVisibility(View.INVISIBLE);
+        }
+
+        btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+             commons.offset= commons.offset+1; //suma uno a la paginacion
+             getSongs(commons.term);
+             //si es mayor a dos se muestra el boton de regresar a la pagina anterior
+                btn_back.setVisibility(View.VISIBLE);
+
+            }
+        });
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //compruba si la paginacion es mayor a dos para mostrar el boton de regreso
+                if (commons.offset>1) {
+                    commons.offset = commons.offset - 1;
+                    getSongs(commons.term);
+                }
+//
+            }
+        });
+
     }
 
     @Override
@@ -60,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        getSongs(newText);
+        commons.term=newText;
+        getSongs(commons.term);
         return false;
     }
 
@@ -72,9 +107,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             public void onResponse(Call<SongsModel> call, Response<SongsModel> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        Log.i("onSuccess", response.body().toString());
-                        List <Result> songsList= response.body().getResults();
+                        btn_next.setVisibility(View.VISIBLE);
+                        btn_next.setText(String.valueOf(commons.offset+1));
 
+                        List <Result> songsList= response.body().getResults();
+                        System.out.println(songsList.size());
                         listViewcanciones=findViewById(R.id.list_songs);
                         mAdapter=new SongsListAdapter(MainActivity.this,songsList );
                         listViewcanciones.setAdapter(mAdapter);

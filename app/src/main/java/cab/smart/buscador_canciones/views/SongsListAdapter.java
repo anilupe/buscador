@@ -1,16 +1,20 @@
 package cab.smart.buscador_canciones.views;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,37 +51,18 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         MyHolder myHolder = (MyHolder) holder;
         Result current = data.get(position);
-//        myHolder.libres_Logistic_Company.setText(current.Logistic_Company);
+        //metodo para mostrar imagen desde ws
+        Picasso.with(context).load(current.getArtworkUrl100()
+        ).error(R.mipmap.ic_launcher)
+                .fit()
+                .centerInside()
+                .into(myHolder.albumImage);
         myHolder.artistName.setText(current.getArtistName());
         myHolder.trackName.setText(current.getTrackName());
         myHolder.collectionName.setText(current.getCollectionName());
 
     }
 
-    public void filtrado(String txtBuscar){
-        int longitud = txtBuscar.length();
-        if(longitud==0){
-            data.clear();
-            data.addAll(listaOriginal);
-        }else {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                List<Result>collection=data.stream()
-                        .filter(i -> i.getTrackName().toLowerCase().contains(txtBuscar.toLowerCase()))
-                        .collect(Collectors.toList());
-
-                data.clear();
-                data.addAll(collection);
-            }
-            else {
-                for (Result c:listaOriginal){
-                    if (c.getTrackName().toLowerCase().contains(txtBuscar.toLowerCase())){
-                        data.add(c);
-                    }
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
 
     @Override
     public int getItemCount() {
@@ -85,6 +70,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public ImageView albumImage;
         public TextView trackName;
         public TextView artistName;
         public TextView collectionName;
@@ -93,6 +79,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public MyHolder(View itemView) {
             super(itemView);
             //libres_Logistic_Company = itemView.findViewById(R.id.libres_Logistic_Company);
+            albumImage=itemView.findViewById(R.id.albumImage);
             trackName = itemView.findViewById(R.id.trackName);
             artistName = itemView.findViewById(R.id.artistName);
             collectionName = itemView.findViewById(R.id.collectionName);

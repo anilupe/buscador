@@ -1,8 +1,10 @@
 package cab.smart.buscador_canciones.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private AdapterView.OnItemClickListener mListener;
     List<Result> data = Collections.emptyList();
     ArrayList<Result> listaOriginal;
+    Result current;
 
 
     public SongsListAdapter(Context context, List<Result> data) {
@@ -50,7 +53,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         MyHolder myHolder = (MyHolder) holder;
-        Result current = data.get(position);
+        current = data.get(position);
         //metodo para mostrar imagen desde ws
         Picasso.with(context).load(current.getArtworkUrl100()
         ).error(R.mipmap.ic_launcher)
@@ -60,6 +63,20 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         myHolder.artistName.setText(current.getArtistName());
         myHolder.trackName.setText(current.getTrackName());
         myHolder.collectionName.setText(current.getCollectionName());
+        myHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, album_detail.class);
+                intent.putExtra("idArtist", current.getArtistId());
+                intent.putExtra("arte", current.getArtworkUrl100());
+                intent.putExtra("albumName", current.getCollectionName());
+                intent.putExtra("bandName", current.getArtistId());
+                intent.putExtra("preview", current.getPreviewUrl());
+
+                context.startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -90,7 +107,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @Override
         public void onClick(View view) {
-            Log.i("CANCION SELECCIONADA","CORRECTO");
+
         }
     }
 }

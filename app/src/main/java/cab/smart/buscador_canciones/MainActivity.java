@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                     if (response.body() != null) {
                         btn_next.setVisibility(View.VISIBLE);
                         btn_next.setText(String.valueOf(commons.offset+1));
+                        btn_next.setText(String.valueOf(commons.offset-1));
 
                         List <Result> songsList= response.body().getResults();
                         System.out.println(songsList.size());

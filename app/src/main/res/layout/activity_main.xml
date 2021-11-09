@@ -6,13 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:background="@drawable/gris"
     tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/buscar"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
     <androidx.appcompat.widget.SearchView
         android:id="@+id/svSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:queryHint="Buscar..."
+        app:queryHint="Artistas, canciones o podcast..."
+        android:outlineAmbientShadowColor="@color/black"
+        android:outlineSpotShadowColor="@color/black"
+        android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"
         app:iconifiedByDefault="false"
 
         />
@@ -38,6 +54,7 @@
         android:layout_height="wrap_content"
        android:visibility="gone"
         android:text="Button"
+        android:background="@color/black"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +70,7 @@
         android:layout_height="wrap_content"
        android:textColor="@color/white"
         android:visibility="gone"
+        android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.798"

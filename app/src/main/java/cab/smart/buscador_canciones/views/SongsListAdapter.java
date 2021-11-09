@@ -63,6 +63,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         myHolder.artistName.setText(current.getArtistName());
         myHolder.trackName.setText(current.getTrackName());
         myHolder.collectionName.setText(current.getCollectionName());
+
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,10 +71,13 @@ public class SongsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 intent.putExtra("idArtist", current.getArtistId());
                 intent.putExtra("arte", current.getArtworkUrl100());
                 intent.putExtra("albumName", current.getCollectionName());
-                intent.putExtra("bandName", current.getArtistId());
+                intent.putExtra("bandName", current.getArtistName());
                 intent.putExtra("preview", current.getPreviewUrl());
+                intent.putExtra("songName", current.getTrackName());
 
                 context.startActivity(intent);
+
+
             }
         });
 
